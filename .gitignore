@@ -1,0 +1,8 @@
+*.exe
+*.dll
+*.dylib
+
+*.test
+
+*.out
+db/
