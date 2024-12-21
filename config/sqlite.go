@@ -1,38 +1,26 @@
 package config
 
 import (
-	"gorm.io/driver/sqlite"
+	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 	"leChief/schemas"
-	"os"
 )
 
 func InitializeSQLite() (*gorm.DB, error) {
-	logger := GetLogger("sqlite")
+	logger := GetLogger("mysql")
 
-	databasePath := "./db/main.db"
+	database, err := gorm.Open(mysql.New(mysql.Config{
+		DriverName: "mysql",
+		DSN:        "root:wyaNaujpNbEZKZdwBFFCALelEApuJHmu@tcp(junction.proxy.rlwy.net:22781)/railway",
+	}), &gorm.Config{})
 
-	_, err := os.Stat(databasePath)
-	if os.IsNotExist(err) {
-		logger.Info("Database file does not exist, creating...")
-
-		err = os.MkdirAll("./db", os.ModePerm)
-		if err != nil {
-			return nil, err
-		}
-
-		file, err := os.Create(databasePath)
-		if err != nil {
-			return nil, err
-		}
-
-		file.Close()
+	if err != nil {
+		logger.ErrorFormatted("Error connecting to MySQL: %v", err)
+		return nil, err
 	}
 
-	database, err := gorm.Open(sqlite.Open(databasePath), &gorm.Config{})
-	if err != nil {
-		logger.ErrorFormatted("Error opening SQLite database: %v", err)
-		return nil, err
+	if err == nil {
+		logger.Info("Successfully connected to MySQL")
 	}
 
 	err = database.AutoMigrate(&schemas.Order{})
