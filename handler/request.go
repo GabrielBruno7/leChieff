@@ -21,6 +21,19 @@ func (request *createOrderRequest) Validate() error {
 	return nil
 }
 
+type updateOrderRequest struct {
+	Status string `json:"status"`
+	Notes  string `json:"notes"`
+}
+
+func (request *updateOrderRequest) Validate() error {
+	if request.Status != "" || request.Notes != "" {
+		return nil
+	}
+
+	return fmt.Errorf("at least one valid field must provided")
+}
+
 func checkIfParamIsRequired(param, typ string) error {
 	return fmt.Errorf("the param: %s (type: %s) is required", param, typ)
 }
