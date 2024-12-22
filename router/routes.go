@@ -14,9 +14,9 @@ func initializeRoute(router *gin.Engine) {
 
 		v1.POST("/order", handler.CreateOrderHandler)
 
-		v1.GET("/order/{id}", handler.ShowOrderHandler)
+		v1.GET("/order", handler.ShowOrderHandler)
 
-		v1.PUT("/order/{id}", handler.UpdateOrderHandler)
+		v1.PUT("/order", handler.UpdateOrderHandler)
 
 		v1.DELETE("/order", handler.DeleteOrderHandler)
 	}
