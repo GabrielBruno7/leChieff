@@ -4,29 +4,29 @@ import (
 	"fmt"
 )
 
-type createOrderRequest struct {
+type CreateOrderRequest struct {
 	Status string `json:"status"`
 	Notes  string `json:"notes"`
 }
 
-func (request *createOrderRequest) Validate() error {
+func (request *CreateOrderRequest) Validate() error {
 	if request.Status == "" {
-		return checkIfParamIsRequired("status", "string")
+		return CheckIfParamIsRequired("status", "string")
 	}
 
 	if request.Notes == "" {
-		return checkIfParamIsRequired("notes", "string")
+		return CheckIfParamIsRequired("notes", "string")
 	}
 
 	return nil
 }
 
-type updateOrderRequest struct {
+type UpdateOrderRequest struct {
 	Status string `json:"status"`
 	Notes  string `json:"notes"`
 }
 
-func (request *updateOrderRequest) Validate() error {
+func (request *UpdateOrderRequest) Validate() error {
 	if request.Status != "" || request.Notes != "" {
 		return nil
 	}
@@ -34,6 +34,6 @@ func (request *updateOrderRequest) Validate() error {
 	return fmt.Errorf("at least one valid field must provided")
 }
 
-func checkIfParamIsRequired(param, typ string) error {
+func CheckIfParamIsRequired(param, typ string) error {
 	return fmt.Errorf("the param: %s (type: %s) is required", param, typ)
 }

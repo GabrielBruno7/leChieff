@@ -6,11 +6,11 @@ import (
 )
 
 var (
-	logger   *config.Logger
-	database *gorm.DB
+	Logger   *config.Logger
+	Database *gorm.DB
 )
 
 func InitializeHandler() {
-	logger = config.GetLogger("handler")
-	database = config.GetDatabase()
+	Logger = config.GetLogger("handler")
+	Database = config.GetDatabase()
 }

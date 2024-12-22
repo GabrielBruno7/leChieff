@@ -6,7 +6,7 @@ import (
 	"net/http"
 )
 
-func sendSuccessResponse(context *gin.Context, operation string, data interface{}) {
+func SendSuccessResponse(context *gin.Context, operation string, data interface{}) {
 	context.Header("content-type", "application/json")
 	context.JSON(http.StatusOK, gin.H{
 		"message": fmt.Sprintf("Successfully sent response: %s", operation),
@@ -14,7 +14,7 @@ func sendSuccessResponse(context *gin.Context, operation string, data interface{
 	})
 }
 
-func sendErrorResponse(context *gin.Context, code int, message string) {
+func SendErrorResponse(context *gin.Context, code int, message string) {
 	context.Header("content-type", "application/json")
 	context.JSON(code, gin.H{
 		"code":    code,
