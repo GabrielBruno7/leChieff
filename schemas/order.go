@@ -7,7 +7,7 @@ import (
 )
 
 type Order struct {
-	Id        uuid.UUID `gorm:"type:uuid;primaryKey"`
+	ID        string `gorm:"type:char(36);primaryKey"`
 	Status    string
 	Notes     string
 	CreatedAt time.Time
@@ -15,8 +15,13 @@ type Order struct {
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
 
+func (o *Order) BeforeCreate(tx *gorm.DB) (err error) {
+	o.ID = uuid.New().String()
+	return
+}
+
 type OrderResponse struct {
-	Id        uuid.UUID  `json:"id"`
+	ID        uuid.UUID  `json:"id"`
 	Status    string     `json:"status"`
 	Notes     string     `json:"notes"`
 	CreatedAt time.Time  `json:"created_at"`

@@ -2,7 +2,6 @@ package handler
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/google/uuid"
 	"leChief/schemas"
 	"net/http"
 )
@@ -24,7 +23,6 @@ func CreateOrderHandler(context *gin.Context) {
 	}
 
 	order := schemas.Order{
-		Id:     uuid.New(),
 		Status: request.Status,
 		Notes:  request.Notes,
 	}

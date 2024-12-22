@@ -18,6 +18,6 @@ func initializeRoute(router *gin.Engine) {
 
 		v1.PUT("/order/{id}", handler.UpdateOrderHandler)
 
-		v1.DELETE("/order/{id}", handler.DeleteOrderHandler)
+		v1.DELETE("/order", handler.DeleteOrderHandler)
 	}
 }
