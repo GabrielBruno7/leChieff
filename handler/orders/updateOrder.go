@@ -11,7 +11,7 @@ func UpdateOrderHandler(context *gin.Context) {
 	request := handler.UpdateOrderRequest{}
 
 	context.BindJSON(&request)
-	if err := request.Validate(); err != nil {
+	if err := request.ValidateOrder(); err != nil {
 		handler.Logger.ErrorFormatted("Validation Error: %v", err.Error())
 		handler.SendErrorResponse(context, http.StatusBadRequest, err.Error())
 		return

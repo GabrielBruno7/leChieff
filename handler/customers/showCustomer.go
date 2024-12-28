@@ -1,4 +1,4 @@
-package orders
+package customers
 
 import (
 	"github.com/gin-gonic/gin"
@@ -7,19 +7,20 @@ import (
 	"net/http"
 )
 
-func ShowOrderHandler(context *gin.Context) {
-	orderId := context.Query("id")
-	if orderId == "" {
+func ShowCustomerHandler(context *gin.Context) {
+	customerId := context.Query("id")
+
+	if customerId == "" {
 		handler.SendErrorResponse(context, http.StatusBadRequest, handler.CheckIfParamIsRequired("id", "Query Parameter").Error())
 		return
 	}
 
-	order := schemas.Order{}
+	customer := schemas.Customer{}
 
-	if err := handler.Database.First(&order, "id = ?", orderId).Error; err != nil {
+	if err := handler.Database.First(&customer, "id = ?", customerId).Error; err != nil {
 		handler.SendErrorResponse(context, http.StatusBadRequest, err.Error())
 		return
 	}
 
-	handler.SendSuccessResponse(context, "Show order", order)
+	handler.SendSuccessResponse(context, "Show customer", customer)
 }
