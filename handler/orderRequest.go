@@ -26,8 +26,16 @@ type UpdateOrderRequest struct {
 	Notes  string `json:"notes"`
 }
 
-func (request *UpdateOrderRequest) Validate() error {
+func (request *UpdateOrderRequest) ValidateOrder() error {
 	if request.Status != "" || request.Notes != "" {
+		return nil
+	}
+
+	return fmt.Errorf("at least one valid field must provided")
+}
+
+func (request *UpdateCustomerRequest) ValidateCustomer() error {
+	if request.Name != "" || request.Email != "" || request.Cep != "" || request.Number != "" {
 		return nil
 	}
 
