@@ -16,8 +16,8 @@ type Customer struct {
 	DeletedAt gorm.DeletedAt `gorm:"index"`
 }
 
-func (o *Customer) BeforeCreate(tx *gorm.DB) (err error) {
-	o.ID = uuid.New().String()
+func (customer *Customer) BeforeCreate(context *gorm.DB) (err error) {
+	customer.ID = uuid.New().String()
 	return
 }
 

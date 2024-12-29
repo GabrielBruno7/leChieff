@@ -7,16 +7,18 @@ import (
 )
 
 type Order struct {
-	ID        string `gorm:"type:char(36);primaryKey"`
-	Status    string
-	Notes     string
-	CreatedAt time.Time
-	UpdatedAt time.Time
-	DeletedAt gorm.DeletedAt `gorm:"index"`
+	ID         string `gorm:"type:char(36);primaryKey"`
+	Status     string
+	Notes      string
+	CustomerID string   `gorm:"type:char(36);not null"`
+	Customer   Customer `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"-"`
+	CreatedAt  time.Time
+	UpdatedAt  time.Time
+	DeletedAt  gorm.DeletedAt `gorm:"index"`
 }
 
-func (o *Order) BeforeCreate(tx *gorm.DB) (err error) {
-	o.ID = uuid.New().String()
+func (order *Order) BeforeCreate(context *gorm.DB) (err error) {
+	order.ID = uuid.New().String()
 	return
 }
 

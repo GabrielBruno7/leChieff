@@ -17,6 +17,13 @@ func CreateOrderHandler(context *gin.Context) {
 		return
 	}
 
+	var customer schemas.Customer
+	if err := handler.Database.First(&customer, "id = ?", request.Customer_id).Error; err != nil {
+		handler.Logger.ErrorFormatted("Customer not found: %v", request.Customer_id)
+		handler.SendErrorResponse(context, http.StatusBadRequest, "Invalid customer ID")
+		return
+	}
+
 	if err := request.Validate(); err != nil {
 		handler.Logger.ErrorFormatted("Validation error: %v", err.Error())
 		handler.SendErrorResponse(context, http.StatusBadRequest, err.Error())
@@ -24,8 +31,9 @@ func CreateOrderHandler(context *gin.Context) {
 	}
 
 	order := schemas.Order{
-		Status: request.Status,
-		Notes:  request.Notes,
+		Status:     request.Status,
+		Notes:      request.Notes,
+		CustomerID: request.Customer_id,
 	}
 
 	if err := handler.Database.Create(&order).Error; err != nil {

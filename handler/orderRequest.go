@@ -5,15 +5,18 @@ import (
 )
 
 type CreateOrderRequest struct {
-	Status string `json:"status"`
-	Notes  string `json:"notes"`
+	Status      string `json:"status"`
+	Notes       string `json:"notes"`
+	Customer_id string `json:"customer_id"`
 }
 
 func (request *CreateOrderRequest) Validate() error {
 	if request.Status == "" {
 		return CheckIfParamIsRequired("status", "string")
 	}
-
+	if request.Customer_id == "" {
+		return CheckIfParamIsRequired("customer_id", "string")
+	}
 	if request.Notes == "" {
 		return CheckIfParamIsRequired("notes", "string")
 	}
