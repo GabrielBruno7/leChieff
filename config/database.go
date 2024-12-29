@@ -31,5 +31,11 @@ func InitializeMySQL() (*gorm.DB, error) {
 		return nil, err
 	}
 
+	err = database.AutoMigrate(&schemas.Product{})
+	if err != nil {
+		logger.ErrorFormatted("Error migrating database: %v", err)
+		return nil, err
+	}
+
 	return database, nil
 }
