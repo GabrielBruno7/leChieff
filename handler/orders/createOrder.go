@@ -32,7 +32,6 @@ func CreateOrderHandler(context *gin.Context) {
 
 	order := schemas.Order{
 		Status:     request.Status,
-		Notes:      request.Notes,
 		CustomerID: request.Customer_id,
 	}
 
@@ -42,5 +41,26 @@ func CreateOrderHandler(context *gin.Context) {
 		return
 	}
 
-	handler.SendSuccessResponse(context, "create-order", order)
+	for _, product := range request.Products {
+		var productDatabase schemas.Product
+		if err := handler.Database.First(&productDatabase, "id = ?", product.ProductID).Error; err != nil {
+			handler.Logger.ErrorFormatted("Product not found: %v", product.ProductID)
+			handler.SendErrorResponse(context, http.StatusBadRequest, "Invalid product ID")
+			return
+		}
+
+		productOrder := schemas.ProductOrder{
+			OrderID:   order.ID,
+			ProductID: product.ProductID,
+			Quantity:  product.Quantity,
+		}
+
+		if err := handler.Database.Create(&productOrder).Error; err != nil {
+			handler.Logger.ErrorFormatted("Failed to create a product order: %v", productOrder)
+			handler.SendErrorResponse(context, http.StatusInternalServerError, err.Error())
+			return
+		}
+	}
+
+	handler.SendSuccessResponse(context, "Create order", order)
 }

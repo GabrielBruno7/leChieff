@@ -5,6 +5,7 @@ import (
 	"leChief/handler"
 	"leChief/handler/customers"
 	"leChief/handler/orders"
+	"leChief/handler/products"
 )
 
 func initializeRoute(router *gin.Engine) {
@@ -23,5 +24,11 @@ func initializeRoute(router *gin.Engine) {
 		v1.GET("/customer", customers.ShowCustomerHandler)
 		v1.PUT("/customer", customers.UpdateCustomerHandler)
 		v1.DELETE("/customer", customers.DeleteCustomerHandler)
+
+		v1.GET("/products", products.ListProductsHandler)
+		v1.POST("/product", products.CreateProductHandler)
+		v1.GET("/product", products.ShowProductsHandler)
+		v1.PUT("/product", products.UpdateProductHandler)
+		v1.DELETE("/product", products.DeleteProductHandler)
 	}
 }

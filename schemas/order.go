@@ -9,12 +9,11 @@ import (
 type Order struct {
 	ID         string `gorm:"type:char(36);primaryKey"`
 	Status     string
-	Notes      string
-	CustomerID string   `gorm:"type:char(36);not null"`
-	Customer   Customer `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"-"`
-	CreatedAt  time.Time
-	UpdatedAt  time.Time
-	DeletedAt  gorm.DeletedAt `gorm:"index"`
+	CustomerID string         `gorm:"type:char(36);not null"`
+	Customer   Customer       `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"-"`
+	CreatedAt  time.Time      `json:"-"`
+	UpdatedAt  time.Time      `json:"-"`
+	DeletedAt  gorm.DeletedAt `gorm:"index;" json:"-"`
 }
 
 func (order *Order) BeforeCreate(context *gorm.DB) (err error) {
@@ -23,10 +22,6 @@ func (order *Order) BeforeCreate(context *gorm.DB) (err error) {
 }
 
 type OrderResponse struct {
-	ID        uuid.UUID  `json:"id"`
-	Status    string     `json:"status"`
-	Notes     string     `json:"notes"`
-	CreatedAt time.Time  `json:"created_at"`
-	UpdatedAt time.Time  `json:"updated_at"`
-	DeletedAt *time.Time `json:"deleted_at,omitempty"`
+	ID     uuid.UUID `json:"id"`
+	Status string    `json:"status"`
 }

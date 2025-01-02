@@ -5,9 +5,14 @@ import (
 )
 
 type CreateOrderRequest struct {
-	Status      string `json:"status"`
-	Notes       string `json:"notes"`
-	Customer_id string `json:"customer_id"`
+	Status      string           `json:"status"`
+	Customer_id string           `json:"customer_id"`
+	Products    []ProductRequest `json:"products" binding:"required,dive"`
+}
+
+type ProductRequest struct {
+	ProductID string `json:"product_id" binding:"required"`
+	Quantity  int    `json:"quantity" binding:"required"`
 }
 
 func (request *CreateOrderRequest) Validate() error {
@@ -16,9 +21,6 @@ func (request *CreateOrderRequest) Validate() error {
 	}
 	if request.Customer_id == "" {
 		return CheckIfParamIsRequired("customer_id", "string")
-	}
-	if request.Notes == "" {
-		return CheckIfParamIsRequired("notes", "string")
 	}
 
 	return nil
