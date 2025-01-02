@@ -33,10 +33,6 @@ func UpdateOrderHandler(context *gin.Context) {
 		order.Status = request.Status
 	}
 
-	if request.Notes != "" {
-		order.Notes = request.Notes
-	}
-
 	if err := handler.Database.Save(&order).Error; err != nil {
 		handler.SendErrorResponse(context, http.StatusInternalServerError, "Error saving order")
 		return

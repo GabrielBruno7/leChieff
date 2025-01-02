@@ -8,18 +8,13 @@ import (
 )
 
 type Product struct {
-	ID          string `gorm:"type:char(36);primaryKey"`
+	ID          uint `gorm:"primaryKey;autoIncrement"`
 	Name        string
 	Description string
 	Value       float32  `sql:"type:decimal(10,2);"`
-	Type        foodType `sql:"type:ENUM('RUSK', 'CAKE', 'PANETTONE')" gorm:"column:food_type"`
+	Type        FoodType `sql:"type:ENUM('RUSK', 'CAKE', 'PANETTONE')" gorm:"column:food_type"`
 	UpdatedAt   time.Time
 	DeletedAt   gorm.DeletedAt `gorm:"index"`
-}
-
-func (product *Product) BeforeCreate(context *gorm.DB) (err error) {
-	product.ID = uuid.New().String()
-	return
 }
 
 type ProductResponse struct {
@@ -32,19 +27,11 @@ type ProductResponse struct {
 	DeletedAt   *time.Time `json:"deleted_at,omitempty"`
 }
 
-type foodType string
-
-const (
-	RUSK      foodType = "RUSK"
-	CAKE      foodType = "CAKE"
-	PANETTONE foodType = "PANETTONE"
-)
-
-func (self *foodType) Scan(value interface{}) error {
-	*self = foodType(value.([]byte))
+func (self *FoodType) Scan(value interface{}) error {
+	*self = FoodType(value.([]byte))
 	return nil
 }
 
-func (self foodType) Value() (driver.Value, error) {
+func (self FoodType) Value() (driver.Value, error) {
 	return string(self), nil
 }
