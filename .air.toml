@@ -1,0 +1,9 @@
+# Comando para rodar o projeto
+cmd = "go run main.go"
+
+# Diretórios que o Air deve observar
+watch_dirs = ["."]
+watch_exts = ["go"]
+
+# Ignorar certas pastas (exemplo: logs, temp)
+exclude_dirs = ["vendor", "tmp", "bin"]

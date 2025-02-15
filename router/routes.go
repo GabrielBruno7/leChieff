@@ -30,5 +30,6 @@ func initializeRoute(router *gin.Engine) {
 		v1.GET("/product", products.ShowProductsHandler)
 		v1.PUT("/product", products.UpdateProductHandler)
 		v1.DELETE("/product", products.DeleteProductHandler)
+		v1.PATCH("/price-product", products.PriceProductHandler)
 	}
 }
